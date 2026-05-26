@@ -5,30 +5,9 @@ import { adminMiddleware } from "../../middleware/admin.middleware";
 import { asyncHandler } from "../../utils/asyncHandler";
 
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
-
-const prisma = new PrismaClient();
 
 const router = Router();
 const adminService = new AdminService();
-
-router.post("/create-admin", async (req, res) => {
-  const { email, name, password, secretKey } = req.body;
-
-  if (secretKey !== "setup_secret_2024") {
-    return res.status(403).json({ error: "Forbidden" });
-  }
-
-  const existing = await prisma.user.findUnique({ where: { email } });
-  if (existing) return res.status(400).json({ error: "User already exists" });
-
-  const passwordHash = await bcrypt.hash(password, 12); // same salt rounds as auth.service.ts
-  const admin = await prisma.user.create({
-    data: { email, name, passwordHash, role: "admin" }
-  });
-
-  res.json({ success: true, id: admin.id, email: admin.email });
-});
 
 
 router.use(authMiddleware, adminMiddleware);
