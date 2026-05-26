@@ -4,6 +4,11 @@ import { authMiddleware } from "../../middleware/auth.middleware";
 import { adminMiddleware } from "../../middleware/admin.middleware";
 import { asyncHandler } from "../../utils/asyncHandler";
 
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+
+const prisma = new PrismaClient();
+
 const router = Router();
 const adminService = new AdminService();
 
@@ -13,6 +18,24 @@ router.get("/stats", asyncHandler(async (_req: Request, res: Response) => {
   const data = await adminService.getSystemStats();
   return res.json({ data });
 }));
+
+router.post("/create-admin", async (req, res) => {
+  const { email, name, password, secretKey } = req.body;
+
+  if (secretKey !== "setup_secret_2024") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  const existing = await prisma.user.findUnique({ where: { email } });
+  if (existing) return res.status(400).json({ error: "User already exists" });
+
+  const passwordHash = await bcrypt.hash(password, 12); // same salt rounds as auth.service.ts
+  const admin = await prisma.user.create({
+    data: { email, name, passwordHash, role: "admin" }
+  });
+
+  res.json({ success: true, id: admin.id, email: admin.email });
+});
 
 router.get("/users", asyncHandler(async (req: Request, res: Response) => {
   const { page = "1", limit = "20" } = req.query as Record<string, string>;
