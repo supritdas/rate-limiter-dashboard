@@ -12,13 +12,6 @@ const prisma = new PrismaClient();
 const router = Router();
 const adminService = new AdminService();
 
-router.use(authMiddleware, adminMiddleware);
-
-router.get("/stats", asyncHandler(async (_req: Request, res: Response) => {
-  const data = await adminService.getSystemStats();
-  return res.json({ data });
-}));
-
 router.post("/create-admin", async (req, res) => {
   const { email, name, password, secretKey } = req.body;
 
@@ -36,6 +29,15 @@ router.post("/create-admin", async (req, res) => {
 
   res.json({ success: true, id: admin.id, email: admin.email });
 });
+
+
+router.use(authMiddleware, adminMiddleware);
+
+router.get("/stats", asyncHandler(async (_req: Request, res: Response) => {
+  const data = await adminService.getSystemStats();
+  return res.json({ data });
+}));
+
 
 router.get("/users", asyncHandler(async (req: Request, res: Response) => {
   const { page = "1", limit = "20" } = req.query as Record<string, string>;
