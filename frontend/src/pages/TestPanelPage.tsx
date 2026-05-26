@@ -125,7 +125,6 @@ export function TestPanelPage() {
     setRunning(false);
   };
 
-  const selectedKeyData = keys?.find((k) => k.keyPrefix && selectedKey.startsWith(k.keyPrefix.slice(0, 8)));
 
   return (
     <div>
