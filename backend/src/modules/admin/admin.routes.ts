@@ -5,7 +5,7 @@ import { adminMiddleware } from "../../middleware/admin.middleware";
 import { asyncHandler } from "../../utils/asyncHandler";
 
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
