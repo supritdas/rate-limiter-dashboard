@@ -1,0 +1,82 @@
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 1100px) { .statsGrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .statsGrid { grid-template-columns: 1fr; } }
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 1100px) { .row { grid-template-columns: 1fr; } }
+
+.chartCard { flex: 1; }
+
+.sidebar { display: flex; flex-direction: column; gap: 1rem; }
+
+.cardHeader { margin-bottom: 1rem; }
+
+.cardTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.latencyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.latencyItem {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.latencyLabel {
+  font-size: 0.65rem;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.latencyValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--text);
+}
+
+.latencyUnit { font-size: 0.65rem; color: var(--text3); margin-left: 2px; font-family: var(--font-mono); }
+
+.topKeysList { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.topKeyItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.topKeyItem:last-child { border-bottom: none; }
+
+.keyName { font-size: 0.8rem; color: var(--text); font-weight: 500; }
+.keyPrefix { font-size: 0.7rem; color: var(--text3); }
+
+.empty { font-size: 0.8rem; color: var(--text3); padding: 0.5rem 0; }
